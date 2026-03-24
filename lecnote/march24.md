@@ -1,13 +1,3 @@
-Here is the complete README.md content based on your lecture notes:
-​
-
-text
-# CS312 - Lecture 8: Neural Language Models
-
-> **Course:** CS312 - Natural Language Processing | Spring 2026
-
----
-
 ## Table of Contents
 
 - [Feedforward Neural Networks](#feedforward-neural-networks)
