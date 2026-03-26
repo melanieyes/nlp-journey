@@ -136,23 +136,31 @@ $$W_i^Q \in \mathbb{R}^{d_\text{model} \times d_k}, \quad W_i^K \in \mathbb{R}^{
 
 ## Transformer
 
-The Transformer combines multi-head self-attention with feedforward layers, layer normalization, and **positional encoding** (since attention is order-agnostic):
-
-$$\text{PE}(i, \delta) =
-\begin{cases}
-\sin\!\left(\dfrac{i}{10000^{2\delta'/d}}\right) & \text{if } \delta = 2\delta' \\
-\cos\!\left(\dfrac{i}{10000^{2\delta'/d}}\right) & \text{if } \delta = 2\delta' + 1
-\end{cases}$$
+The Transformer combines multi-head self-attention, position-wise feed-forward networks, residual connections, layer normalization, and positional encoding. Positional encoding is needed because self-attention by itself does not encode token order.
 
 ### Model Size Reference
 
-| Config | N | d_model | h  | Params (×10⁶) | BLEU (dev) |
-|--------|---|---------|----|----------------|------------|
-| base   | 6 | 512     | 8  | 65             | 25.8       |
-| big    | 6 | 1024    | 16 | 213            | **26.4**   |
+| Config | N | d_model | d_ff | h | d_k | d_v | Params (M) | BLEU (dev) |
+|--------|---|---------|------|---|-----|-----|------------|------------|
+| base   | 6 | 512     | 2048 | 8 | 64  | 64  | 65         | 25.8 |
+| big    | 6 | 1024    | 4096 | 16| 64  | 64  | 213        | 26.4 |
 
----
+### Hyperparameter Meanings
 
+- **N**: Number of encoder layers and decoder layers.
+- **d_model**: Hidden size of the main token representation.
+- **d_ff**: Hidden size of the feed-forward sublayer.
+- **h**: Number of attention heads.
+- **d_k**: Key dimension per head.
+- **d_v**: Value dimension per head.
+- **Pdrop**: Dropout probability.
+- **ε_ls**: Label smoothing value.
+- **train steps**: Number of optimization steps.
+- **PPL (dev)**: Development-set perplexity; lower is better.
+- **BLEU (dev)**: Development-set BLEU score; higher is better.
+- **params × 10^6**: Total number of parameters in millions.
+
+----
 ## Summary
 
 | Model        | Context     | Word Order | Parallelizable |
